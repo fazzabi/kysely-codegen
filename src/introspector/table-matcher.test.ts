@@ -70,6 +70,21 @@ describe(TableMatcher.name, () => {
     strictEqual(new TableMatcher('foo_{1,2}').match(undefined, 'foo_3'), false);
   });
 
+  it('should support extended glob patterns', () => {
+    strictEqual(
+      new TableMatcher('public.+(user|post)').match('public', 'user'),
+      true,
+    );
+    strictEqual(
+      new TableMatcher('public.+(user|post)').match('public', 'post'),
+      true,
+    );
+    strictEqual(
+      new TableMatcher('public.+(user|post)').match('public', 'comment'),
+      false,
+    );
+  });
+
   it('should support negation', () => {
     strictEqual(
       new TableMatcher('!foo_(bar|baz)').match(undefined, 'foo_bar'),
